@@ -58,5 +58,12 @@ tabPanel("Data Exploration: Visualisation of DIG Trial outcomes",
                                                 selectizeInput("gender", "Gender", choices = c("All", "Male", "Female"), selected = "All"),
                                                 selectizeInput("variable", "Variable",choices = c("BMI", "KLEVEL", "CREAT", "DIABP", "SYSBP", "HOSPDAYS"), selected = "BMI"),
                                                 
+                                                #Download button so user can get the filtered Data : https://shiny.posit.co/r/reference/shiny/1.3.1/downloadbutton
+                                                downloadButton("download_data", "Download DIG Trial Data"),
                                                 
+                                                #Add a logo: The DIG group logo : code from https://forum.posit.co/t/how-to-add-a-my-company-logo-in-r-shiny-material/35256
+                                                
+                                                tags$img(src = "https://www.digitalis-cdc.com/digitalisshowcase/ui/img/digitalis-flat-1200x800.png",
+                                                         style = "width: 100%; height: auto; margin-top: 20px;")),
+                                   
                                                       

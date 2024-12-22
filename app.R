@@ -77,4 +77,11 @@ tabPanel("Data Exploration: Visualisation of DIG Trial outcomes",
                                                 p("This plot shows the risk of mortality over time by treatment group and the presence or absence of cardiovascular disease (CVD). It helps to visualize how CVD affects the mortality risk in patients under different treatments."),
                                                 img(src = "survival.png", style = "width: 100%; height: auto; margin-top: 20px;"))))))))),
 
-                                                      
+#Summary panel page
+tabPanel("Summary of Findings",
+         fluidPage(tags$head(tags$style(HTML(".summary-table-section {background-color: #2C3E50;padding: 20px;color: white;border-radius: 10px;margin-bottom: 20px;}
+.summary-title {text-decoration: underline;font-size: 1.8em;}
+.summary-table-container {background-color: white;border-radius: 10px;padding: 10px;}
+.info-box {background-color: #2C3E50;color: white;border: 1px solid #ddd;border-radius: 10px;padding: 15px;margin-bottom: 20px;display: flex;align-items: center;gap: 10px;}
+.info-icon {font-size: 20px;color: #3498db;}"))),
+                   

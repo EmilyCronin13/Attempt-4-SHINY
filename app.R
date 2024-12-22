@@ -140,4 +140,55 @@ server <- function(input, output, session) {
       labs(title = paste("Age vs", input$variable), x = "Age", y = input$variable)
     ggplotly(gg)})
   
+  #Mosaic plot from assignment 4
+  output$mosaic_plot <- renderPlotly({
+    mosaic <- ggplot(filtered_data()) +
+      geom_mosaic(aes(x = product(TRTMT, SEX), fill = SEX)) + scale_fill_manual(values = c("Male" = "#BFEFFF", "Female" = "#FF69B4")) +
+      labs(title = "Distribution of Sex within Treatment Groups",
+           x = "Treatment Group",
+           y = "Proportion of Patients",
+           fill = "Sex") +
+      theme_minimal()
+    ggplotly(mosaic)})
+  #Patient mortality
+  output$mortality_plot <- renderPlotly({
+    mortality <- dig.df %>%
+      group_by(TRTMT, DEATH) %>%
+      summarise(Count = n(), .groups = "drop")
+    plot_ly(mortality, x = ~factor(TRTMT, levels = c("Placebo", "Digoxin")),
+            y = ~Count,
+            color = ~factor(DEATH, labels = c("Alive", "Dead")),
+            type = 'bar',
+            text = ~Count) %>%
+      layout(title = "Mortality by Treatment Group",
+             barmode = "group",
+             xaxis = list(title = "Treatment Group"),
+             yaxis = list(title = "Number of Patients"))})
   
+  #Adding mortality plot for CVD
+  output$cvd_mortality_plot <- renderPlotly({
+    cvd <- dig.df %>%
+      group_by(CVD, DEATH) %>%
+      summarise(Count = n(), .groups = "drop")
+    plot_ly(cvd, x = ~factor(CVD, labels = c("No CVD", "CVD")),
+            y = ~Count,
+            color = ~factor(DEATH, labels = c("Alive", "Dead")),
+            type = 'bar',
+            text = ~Count) %>%
+      layout(title = "CVD Influence on Mortality",
+             barmode = "group",
+             xaxis = list(title = "Cardiovascular Disease"),
+             yaxis = list(title = "Number of Patients"))})
+  
+  #Downloading data
+  output$download_data <- downloadHandler(
+    filename = function() {
+      paste("Filtered_DIG_Data-", Sys.Date(), ".csv", sep = "")},
+    content = function(file) {
+      write.csv(filtered_data(), file, row.names = FALSE)})}
+
+# Run the final app
+shinyApp(ui, server)
+
+
+

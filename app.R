@@ -84,7 +84,16 @@ tabPanel("Summary of Findings",
 .summary-table-container {background-color: white;border-radius: 10px;padding: 10px;}
 .info-box {background-color: #2C3E50;color: white;border: 1px solid #ddd;border-radius: 10px;padding: 15px;margin-bottom: 20px;display: flex;align-items: center;gap: 10px;}
 .info-icon {font-size: 20px;color: #3498db;}"))),
-
+                   #Making the table interactive so you can search : Using datatables https://shiny.posit.co/r/articles/build/datatables/
+                   filtered_data <- reactive({
+                     data <- dig.df %>%
+                       filter(AGE >= input$age_range[1] & AGE <= input$age_range[2])
+                     if (input$gender != "All") {
+                       data <- data %>% filter(SEX == input$gender)}
+                     if (nrow(data) == 0) {
+                       showNotification("No data available for selected filters.", type = "warning")} # Adding a warning if someone tries to search for something else
+                     data})
+                   
                    div(class = "summary-table-section",
                        h2("Summary of Findings of DIG Trial", class = "summary-title", style = "text-align: center;")),
                    div(class = "info-box",

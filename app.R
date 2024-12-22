@@ -130,4 +130,14 @@ server <- function(input, output, session) {
         pageLength = 10,
         autoWidth = TRUE,
         dom = "Bfrtip"))})
+  #Visualizing our graphs pink for female and blue for male
+  #Scatterplot from assignment 4
+  output$scatter_plot <- renderPlotly({
+    gg <- filtered_data() %>%
+      ggplot(aes_string(x = "AGE", y = input$variable, color = "SEX")) +
+      geom_point(alpha = 1, size = 3) +
+      scale_color_manual(values = c("Female" = "#FF69B4", "Male" = "#BFEFFF")) +
+      labs(title = paste("Age vs", input$variable), x = "Age", y = input$variable)
+    ggplotly(gg)})
+  
   

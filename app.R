@@ -35,4 +35,10 @@ padding: 50px;}
                                                       
 #Next we are adding our giphs and images to our app method is curtesy of the posit tutorial for images : https://shiny.posit.co/r/articles/build/images/         
 #All giphs included are from GIPHY and are not coprighted: https://www.youtube.com/watch?v=Ka2pWqXS1WA
+
+
+div(class = "about-page",
+    div( class = "about-header",img(src = "https://media.giphy.com/media/ToMjGpAibV4AwKryEXS/giphy.gif"),h1("Introduction to the Digitalis Investigation Group (DIG) Trial"),img(src = "https://media.giphy.com/media/l3YSj6Oirgkb18AkE/giphy.gif") ),
+    div( class = "intro-box", #Add the text to the box we generated - intro to the dig study. The summary text is from the actual DIG study : https://biolincc.nhlbi.nih.gov/studies/dig/
+         
                                                       

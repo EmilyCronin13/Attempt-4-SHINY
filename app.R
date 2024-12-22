@@ -121,4 +121,13 @@ server <- function(input, output, session) {
     if (nrow(data) == 0) {
       showNotification("No data available for selected filters.", type = "warning")} # Adding a warning if someone tries to search for something else
     data})
+  #Output summary to user
+  output$summary_table <- renderDT({
+    datatable(
+      filtered_data(),
+      options = list(
+        scrollX = TRUE,
+        pageLength = 10,
+        autoWidth = TRUE,
+        dom = "Bfrtip"))})
   

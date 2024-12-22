@@ -84,4 +84,22 @@ tabPanel("Summary of Findings",
 .summary-table-container {background-color: white;border-radius: 10px;padding: 10px;}
 .info-box {background-color: #2C3E50;color: white;border: 1px solid #ddd;border-radius: 10px;padding: 15px;margin-bottom: 20px;display: flex;align-items: center;gap: 10px;}
 .info-icon {font-size: 20px;color: #3498db;}"))),
-                   
+
+                   div(class = "summary-table-section",
+                       h2("Summary of Findings of DIG Trial", class = "summary-title", style = "text-align: center;")),
+                   div(class = "info-box",
+                       tags$span(class = "info-icon", "ℹ️"),
+                       p("This is the summary data collected during this study for both Digoxin and Placebo groups. Increasing age is associated with progressively worse clinical outcomes in patients with HF. However, the beneficial effects of digoxin in reducing all-cause admissions, HF admissions, and HF death or hospitalization are independent of age. Thus, digoxin remains a useful agent to the adjunctive treatment of HF due to impaired left ventricular systolic function in patients of all ages.")),
+                   div(
+                     class = "summary-table-container",
+                     DTOutput("summary_table"))))) #Closing all brackets
+
+# Now defining our server
+server <- function(input, output, session) {
+  
+  #Now adding summary table data that you can then filter - filtering a reactive table code from stackoverflow adapted for this app - https://stackoverflow.com/questions/72398800/filtering-a-reactive-table-in-shiny
+  dig.df <- read.csv("DIG.csv") %>%
+    mutate(SEX = factor(SEX, labels = c("Male", "Female")),
+           TRTMT = ifelse(TRTMT == 0, "Placebo", "Digoxin"),
+           DEATH_BINARY = ifelse(DEATH == "Death", 1, 0))
+  

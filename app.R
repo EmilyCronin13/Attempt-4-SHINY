@@ -40,5 +40,23 @@ padding: 50px;}
 div(class = "about-page",
     div( class = "about-header",img(src = "https://media.giphy.com/media/ToMjGpAibV4AwKryEXS/giphy.gif"),h1("Introduction to the Digitalis Investigation Group (DIG) Trial"),img(src = "https://media.giphy.com/media/l3YSj6Oirgkb18AkE/giphy.gif") ),
     div( class = "intro-box", #Add the text to the box we generated - intro to the dig study. The summary text is from the actual DIG study : https://biolincc.nhlbi.nih.gov/studies/dig/
-         
+         p("The Digitalis Investigation Group (DIG) trial was the first large simple trial conducted by the National Heart, Lung, and Blood Institute in conjunction with the Department of Veterans Affair."),
+         p("The Digitalis Investigation Group (DIG) study was a prospective, randomized clinical trial involving 7,788 patients with HF randomized to digoxin or placebo and followed for an average of 37 months."),
+         p("Interactions between age and the following clinical outcomes were examined: total mortality, all-cause hospitalizations, HF hospitalizations, the composite of HF death or HF hospitalizations, hospitalization for suspected digoxin toxicity and withdrawal from therapy because of side effects."),
+         p("A total of 302 centers in the United States and Canada enrolled 7,788 patients between February 1991 and September 1993.")),
+    
+    div(class = "image-container",img(src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExazBtamw1NWtjeHVoa2Z1ejJybGxyMnQ2czhjejVrNjRxcXYyZHR0NyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o85xm0pDVY4EkKdFe/giphy.gif",
+                                      class = "circle-image"))))), #This is the gif but in a circle form
+
+
+#The next tab is the visualization tab which includes the filter slider from garrett gmans tutorial
+
+tabPanel("Data Exploration: Visualisation of DIG Trial outcomes",
+         fluidPage( div(class = "visualization-info",h3("Visual Data Exploration: Results of DIG Trial"),
+                        p("This section displays various visualizations based on the Digitalis Investigation Group (DIG) trial data. You can explore the relationship between different clinical variables, treatment groups, and patient characteristics through scatter plots, mosaic plots, and bar charts. Use the controls to filter data by age, gender, and other factors.")),
+                    sidebarLayout( sidebarPanel(sliderInput("age_range", "Age Range", min = 30, max = 100, value = c(30, 100)),
+                                                selectizeInput("gender", "Gender", choices = c("All", "Male", "Female"), selected = "All"),
+                                                selectizeInput("variable", "Variable",choices = c("BMI", "KLEVEL", "CREAT", "DIABP", "SYSBP", "HOSPDAYS"), selected = "BMI"),
+                                                
+                                                
                                                       

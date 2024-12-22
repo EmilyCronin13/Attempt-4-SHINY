@@ -65,5 +65,16 @@ tabPanel("Data Exploration: Visualisation of DIG Trial outcomes",
                                                 
                                                 tags$img(src = "https://www.digitalis-cdc.com/digitalisshowcase/ui/img/digitalis-flat-1200x800.png",
                                                          style = "width: 100%; height: auto; margin-top: 20px;")),
-                                   
+                                   #Main sub panel for the visualizations
+                                   mainPanel(tabsetPanel(
+                                     tabPanel("Interactive Scatter Plot", plotlyOutput("scatter_plot")),
+                                     tabPanel("Mosaic Plot", plotlyOutput("mosaic_plot")),
+                                     tabPanel("Static Bar Charts",fluidRow(column(6, plotlyOutput("mortality_plot")),column(6, plotlyOutput("cvd_mortality_plot")) )),
+                                     tabPanel("Static Survival Plot", #Put in small description about survival plot as it gives a broad overview of studyz
+                                              fluidPage(div(
+                                                class = "static-survival-plot",
+                                                h3("Static Survival Plot"),
+                                                p("This plot shows the risk of mortality over time by treatment group and the presence or absence of cardiovascular disease (CVD). It helps to visualize how CVD affects the mortality risk in patients under different treatments."),
+                                                img(src = "survival.png", style = "width: 100%; height: auto; margin-top: 20px;"))))))))),
+
                                                       

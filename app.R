@@ -17,20 +17,21 @@ thematic_shiny()
 ui <- navbarPage(
   title = "Digitalis Investigation Group (DIG) Trial",
   theme = bs_theme(bootswatch = "darkly",
-                   base_font = font_google("Lato"),
-                   heading_font = font_google("Raleway")),
+          base_font = font_google("Lato"),
+          heading_font = font_google("Raleway")),
   
   
-  #Adding multiple panels to the shiny page : https://www.youtube.com/watch?v=V8ne6_F7lIM
+#CSS was used in this SHINY app to further specify the design and appearance of this app with help from this tutorial: https://unleash-shiny.rinterface.com/beautify-css
   
-  #Introduction Tab to the DIG trial
-  tabPanel("Introduction to the DIG Trial", fluidPage(tags$head( tags$style(HTML("
+#Introduction Tab to the DIG trial
+#fluidPage was used to ensure this app would fit any page and the image sizes of the background image is specified below
+
+tabPanel("Introduction to the DIG Trial", fluidPage(tags$head( tags$style(HTML("
 .about-page {background-image: url('https://www.ucsfhealth.org/-/media/project/ucsf/ucsf-health/medical-tests/hero/digoxin-test-2x.jpg?rev=ae7227c07f7e4a338f1df1628fbcee89');background-size: cover;
 background-position: center;
 text-align: center;
 color: white;
 padding: 50px;}
- 
 .about-header { display: flex;justify-content: center;align-items: center;gap: 20px;}
 .about-header img { width: 70px;height: 70px;border-radius: 50%;border: 3px solid white;object-fit: cover;}
 .intro-box {background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */color: white;padding: 20px;margin: 20px 0;border-radius: 10px; text-align: left;}
@@ -49,7 +50,8 @@ p("The Digitalis Investigation Group (DIG) trial was the first large simple tria
 p("The Digitalis Investigation Group (DIG) study was a prospective, randomized clinical trial involving 7,788 patients with HF randomized to digoxin or placebo and followed for an average of 37 months."),
 p("Interactions between age and the following clinical outcomes were examined: total mortality, all-cause hospitalizations, HF hospitalizations, the composite of HF death or HF hospitalizations, hospitalization for suspected digoxin toxicity and withdrawal from therapy because of side effects."),
 p("A total of 302 centers in the United States and Canada enrolled 7,788 patients between February 1991 and September 1993.")),
-                                                          
+
+#Add a circular gif in the middle of the introduction page                                                          
 div(class = "image-container",img(src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExazBtamw1NWtjeHVoa2Z1ejJybGxyMnQ2czhjejVrNjRxcXYyZHR0NyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o85xm0pDVY4EkKdFe/giphy.gif",
 class = "circle-image"))))), #This is the gif but in a circle form
   
@@ -57,6 +59,8 @@ class = "circle-image"))))), #This is the gif but in a circle form
 tabPanel("Data Exploration: Visualisation of DIG Trial outcomes",
 fluidPage( div(class = "visualization-info",h3("Visual Data Exploration: Results of DIG Trial"),
 p("This section displays various visualizations based on the Digitalis Investigation Group (DIG) trial data. You can explore the relationship between different clinical variables, treatment groups, and patient characteristics through scatter plots, mosaic plots, and bar charts. Use the controls to filter data by age, gender, and other factors.")),
+
+#Dictating the values which the user can use in the sliders provided
 sidebarLayout( sidebarPanel(sliderInput("age_range", "Age Range", min = 30, max = 100, value = c(30, 100)),
 selectizeInput("gender", "Gender", choices = c("All", "Male", "Female"), selected = "All"),
 selectizeInput("variable", "Variable",choices = c("BMI", "KLEVEL", "CREAT", "DIABP", "SYSBP", "HOSPDAYS"), selected = "BMI"),
@@ -64,47 +68,48 @@ selectizeInput("variable", "Variable",choices = c("BMI", "KLEVEL", "CREAT", "DIA
 #Download button so user can get the filtered Data : https://shiny.posit.co/r/reference/shiny/1.3.1/downloadbutton
 downloadButton("download_data", "Download DIG Trial Data"),
                                                   
- #Add a logo: The DIG group logo : code from https://forum.posit.co/t/how-to-add-a-my-company-logo-in-r-shiny-material/35256
+#Add a logo: The DIG group logo : code from https://forum.posit.co/t/how-to-add-a-my-company-logo-in-r-shiny-material/35256
                                                   
 tags$img(src = "https://www.digitalis-cdc.com/digitalisshowcase/ui/img/digitalis-flat-1200x800.png",
 style = "width: 100%; height: auto; margin-top: 20px;")),
                                      
-#Main sub panel for the visualizations
-                                     mainPanel(tabsetPanel(
-                                       tabPanel("Interactive Scatter Plot", plotlyOutput("scatter_plot")),
-                                       tabPanel("Mosaic Plot", plotlyOutput("mosaic_plot")),
-                                       tabPanel("Static Bar Charts",fluidRow(column(6, plotlyOutput("mortality_plot")),column(6, plotlyOutput("cvd_mortality_plot")) )),
-                                       tabPanel("Static Survival Plot", #Put in small description about survival plot as it gives a broad overview of studyz
-                                                fluidPage(div(
-                                                  class = "static-survival-plot",
-                                                  h3("Static Survival Plot"),
-                                                  p("This plot shows the risk of mortality over time by treatment group and the presence or absence of cardiovascular disease (CVD). It helps to visualize how CVD affects the mortality risk in patients under different treatments."),
-                                                  img(src = "survival.png", style = "width: 100%; height: auto; margin-top: 20px;"))))))))),
+#Main sub panel for the visualizations: Adding a sidebar layout to an application : https://forum.posit.co/t/rshiny-side-panel-creation-on-action-button-click/69295
+#plotlyOutput is used to allow for interactive visualisations in the shiny application
+mainPanel(tabsetPanel(
+tabPanel("Interactive Scatter Plot", plotlyOutput("scatter_plot")),
+tabPanel("Mosaic Plot", plotlyOutput("mosaic_plot")),
+tabPanel("Static Bar Charts",fluidRow(column(6, plotlyOutput("mortality_plot")),column(6, plotlyOutput("cvd_mortality_plot")) )),
+tabPanel("Static Survival Plot", #Put in small description about survival plot as it gives a broad overview of studyz
+
+fluidPage(div(
+class = "static-survival-plot",
+h3("Static Survival Plot"),
+p("This plot shows the risk of mortality over time by treatment group and the presence or absence of cardiovascular disease (CVD). It helps to visualize how CVD affects the mortality risk in patients under different treatments."),
+img(src = "survival.png", style = "width: 100%; height: auto; margin-top: 20px;"))))))))), #Survival plot image stored on my own computer
   
-  #Summary panel page
-  tabPanel("Summary of Findings",
-           fluidPage(tags$head(tags$style(HTML(".summary-table-section {background-color: #2C3E50;padding: 20px;color: white;border-radius: 10px;margin-bottom: 20px;}
+#Summary panel page
+tabPanel("Summary of Findings",
+fluidPage(tags$head(tags$style(HTML(".summary-table-section {background-color: #2C3E50;padding: 20px;color: white;border-radius: 10px;margin-bottom: 20px;}
 .summary-title {text-decoration: underline;font-size: 1.8em;}
 .summary-table-container {background-color: white;border-radius: 10px;padding: 10px;}
 .info-box {background-color: #2C3E50;color: white;border: 1px solid #ddd;border-radius: 10px;padding: 15px;margin-bottom: 20px;display: flex;align-items: center;gap: 10px;}
 .info-icon {font-size: 20px;color: #3498db;}"))),
                      
 div(class = "summary-table-section",
-h2("Summary of Findings of DIG Trial", class = "summary-title", style = "text-align: center;")),
+h3("Summary of Findings of DIG Trial", class = "summary-title", style = "text-align: center;")),
 div(class = "info-box",
 tags$span(class = "info-icon", "ℹ️"),
 p("This is the summary data collected during this study for both Digoxin and Placebo groups. Increasing age is associated with progressively worse clinical outcomes in patients with HF. However, the beneficial effects of digoxin in reducing all-cause admissions, HF admissions, and HF death or hospitalization are independent of age. Thus, digoxin remains a useful agent to the adjunctive treatment of HF due to impaired left ventricular systolic function in patients of all ages.")),
-                     div(
-                       class = "summary-table-container",
-                       DTOutput("summary_table"))))) #Closing all brackets
+div(class = "summary-table-container",
+DTOutput("summary_table"))))) #Closing all brackets
 
 # Now defining our server
 server <- function(input, output, session) {
   
-  #Now adding summary table data that you can then filter - filtering a reactive table code from stackoverflow adapted for this app - https://stackoverflow.com/questions/72398800/filtering-a-reactive-table-in-shiny
-  dig.df <- read.csv("DIG.csv") %>%
-    mutate(SEX = factor(SEX, labels = c("Male", "Female")),
-           TRTMT = ifelse(TRTMT == 0, "Placebo", "Digoxin"),
+#Now adding summary table data that you can then filter - filtering a reactive table code from stackoverflow adapted for this app - https://stackoverflow.com/questions/72398800/filtering-a-reactive-table-in-shiny
+dig.df <- read.csv("DIG.csv") %>%
+mutate(SEX = factor(SEX, labels = c("Male", "Female")),
+      TRTMT = ifelse(TRTMT == 0, "Placebo", "Digoxin"),
            DEATH_BINARY = ifelse(DEATH == "Death", 1, 0))
   
   #Making the table interactive so you can search : Using datatables https://shiny.posit.co/r/articles/build/datatables/
@@ -187,6 +192,4 @@ server <- function(input, output, session) {
 # Run the final app
 shinyApp(ui, server)
 
-
-
-
+  
